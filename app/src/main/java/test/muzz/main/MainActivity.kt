@@ -10,6 +10,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import test.muzz.common.ui.theme.MessagesTheme
+import test.muzz.main.events.MainState
+import test.muzz.main.ui.MainView
+import test.muzz.main.ui.mockMessages
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -24,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    MainView(mainState = MainState.Messaging(mockMessages))
                 }
             }
         }
