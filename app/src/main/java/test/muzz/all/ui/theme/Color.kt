@@ -1,4 +1,4 @@
-package test.muzz.common.ui.theme
+package test.muzz.all.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -24,7 +24,7 @@ val errorLight = Color(0xFFBA1A1A)
 val onErrorLight = Color(0xFFFFFFFF)
 val errorContainerLight = Color(0xFFFFDAD6)
 val onErrorContainerLight = Color(0xFF410002)
-val backgroundLight = Color(0xFFFFF8F7)
+val backgroundLight = Color.White//Color(0xFFFFF8F7)
 val onBackgroundLight = Color(0xFF281719)
 val surfaceLight = Color(0xFFFFF8F7)
 val onSurfaceLight = Color(0xFF281719)

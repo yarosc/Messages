@@ -1,4 +1,4 @@
-package test.muzz.common.ui.theme
+package test.muzz.all.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

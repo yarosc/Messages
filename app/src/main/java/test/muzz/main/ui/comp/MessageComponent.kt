@@ -1,4 +1,4 @@
-package test.muzz.main.ui
+package test.muzz.main.ui.comp
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -15,17 +15,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import test.muzz.common.ui.theme.MessagesTheme
-import test.muzz.common.ui.theme.chatBubbleShape
-import test.muzz.common.ui.theme.ownerBubbleShape
+import test.muzz.all.ui.theme.MessagesTheme
+import test.muzz.all.ui.theme.chatBubbleShape
+import test.muzz.all.ui.theme.ownerBubbleShape
+import test.muzz.main.all.mockMessages
 import test.muzz.main.models.Message
 
 @Composable
-fun MessageView(
+fun MessageComponent(
     modifier: Modifier = Modifier,
     message: Message
 ) {
-
     val bubbleAlign: Alignment.Horizontal
     val bubbleShape: Shape
     val bubbleContainerColor: Color
@@ -88,7 +88,7 @@ fun MessageView(
 @Composable
 fun MessageViewPreview() {
     MessagesTheme {
-        MessageView(
+        MessageComponent(
             message = mockMessages.last()
         )
     }
@@ -101,9 +101,9 @@ fun MessageViewPreview() {
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-fun MessageView1Preview() {
+fun MessageComponentPreview() {
     MessagesTheme {
-        MessageView(
+        MessageComponent(
             message = mockMessages[1]
         )
     }

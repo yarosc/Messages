@@ -1,4 +1,4 @@
-package test.muzz.common
+package test.muzz.all
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

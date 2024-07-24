@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Messages</string>
+    <string name="mainview_semantics_navigate_back">Exit the chat</string>
 </resources>

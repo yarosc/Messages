@@ -1,8 +1,8 @@
-package test.muzz.main.ui
+package test.muzz.main.ui.comp
 
 import androidx.compose.runtime.Composable
 
 @Composable
-fun TopBarMain() {
+fun MainBottomBar() {
 
 }
