@@ -15,19 +15,21 @@ import test.muzz.domain.main.MainUseCase
 import test.muzz.main.all.mockMessages
 import test.muzz.main.events.MainAction
 import test.muzz.main.events.MainState
+import test.muzz.main.models.Author
+import test.muzz.main.models.Message
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val mainUseCase: MainUseCase,
-    val needle: ProdNeedle, //TODO configure injection
+    private val mainUseCase: MainUseCase,
+    private val needle: ProdNeedle, //TODO configure injection
     analyticsHandler: AnalyticsHandler
 ) : BaseViewModel<MainAction>(analyticsHandler) {
     private val _viewState = MutableStateFlow<MainState>(MainState.Loading)
     val viewState = _viewState.asStateFlow()
 
-    val mockMessage = MainState.Messaging(
-        messages = mockMessages
+    private val mockMessage = MainState.Messaging( //TODO add to DB
+        messageHistory = mockMessages
     )
 
     override fun onResume(owner: LifecycleOwner) {
@@ -40,6 +42,31 @@ class MainViewModel @Inject constructor(
             withContext(needle.main()) {
                 _viewState.emit(mockMessage)
             }
+        }
+    }
+
+    override fun handleAction(action: MainAction) {
+        super.handleAction(action)
+
+        when(action) {
+            is MainAction.SendMessage -> sendMessage(action.message)
+        }
+    }
+
+    private fun sendMessage(message: String) {
+        viewModelScope.launch {
+            //send message
+            //save to db
+
+            val current = _viewState.value as MainState.Messaging
+
+            current.add(Message(
+                author = Author(
+                    name = "Me",
+                    owner = true
+                ),
+                body = message
+            ))
         }
     }
 }

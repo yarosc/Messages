@@ -21,6 +21,8 @@ import test.muzz.all.ui.theme.ownerBubbleShape
 import test.muzz.main.all.mockMessages
 import test.muzz.main.models.Message
 
+
+//TODO Split in 2 functions
 @Composable
 fun MessageComponent(
     modifier: Modifier = Modifier,
@@ -30,7 +32,8 @@ fun MessageComponent(
     val bubbleShape: Shape
     val bubbleContainerColor: Color
     val bubbleContentColor: Color
-    if (message.author.name == "Me") {
+
+    if (message.author.owner) {
         bubbleAlign = Alignment.End
         bubbleShape = ownerBubbleShape
         bubbleContainerColor = MaterialTheme.colorScheme.primary
@@ -62,8 +65,6 @@ fun MessageComponent(
                     text = "10:11 PM",
                     style = MaterialTheme.typography.bodySmall
                 )
-
-
                 Text(
                     text = message.author.name,
                     style = MaterialTheme.typography.titleSmall
@@ -76,7 +77,6 @@ fun MessageComponent(
             }
         }
     }
-
 }
 
 @Preview(

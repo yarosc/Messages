@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import test.muzz.main.MainViewModel
+import test.muzz.main.events.MainAction
 
 @Composable
 fun MainFrame(
@@ -14,5 +15,11 @@ fun MainFrame(
 ) {
     val state by viewModel.viewState.collectAsState()
 
-    MainView(mainState = state)
+    MainView(
+        modifier,
+        state,
+        sendMessage = {
+            viewModel.emitAction(MainAction.SendMessage(it))
+        }
+    )
 }

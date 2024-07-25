@@ -28,7 +28,6 @@ fun MainTopBar(
 ) {
     TopAppBar(
         modifier = modifier,
-//        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Blue), //TODO Remove
         actions = actions,
         title = title,
         scrollBehavior = scrollBehavior,
@@ -38,7 +37,6 @@ fun MainTopBar(
                 modifier = Modifier
                     .size(64.dp)
                     .clickable(onClick = onNavIconPressed)
-
                     .padding(16.dp)
             )
         }

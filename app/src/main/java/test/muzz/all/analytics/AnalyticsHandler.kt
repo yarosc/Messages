@@ -15,7 +15,10 @@ class AnalyticsHandler @Inject constructor(
     }
 
     fun trackEvent() {
-
+        // Google Analytics
+        // Plum Analytics
+        // ...
+        // Any other analytics tool
     }
 
 }

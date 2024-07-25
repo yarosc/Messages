@@ -6,7 +6,8 @@ import test.muzz.main.models.Message
 val mockMessages = listOf(
     Message(
         author = Author(
-            name = "Me"
+            name = "Me",
+            owner = true
         ),
         body = "Hello! How are you?"
     ),
@@ -30,7 +31,8 @@ val mockMessages = listOf(
     ),
     Message(
         author = Author(
-            name = "Me"
+            name = "Me",
+            owner = true
         ),
         body = "On vacation, enjoying the weather... Always wanted to visit Tenerife and finally I'" +
                 "am here. Best choice in a while!"
@@ -44,15 +46,28 @@ val mockMessages = listOf(
     ),
     Message(
         author = Author(
-            name = "Me"
+            name = "Me",
+            owner = true
         ),
         body = "Yes... sort of. I swam in one of those natural pools close to the ocean. They are" +
                 "filled with ocean water from the waves. "
     ),
     Message(
         author = Author(
-            name = "Lisa"
+            name = "Lisa",
         ),
         body = "That sounds lovely. What else is there to see?"
+    ),
+    Message(
+        author = Author(
+            name = "Lisa",
+        ),
+        body = "Maybe some old and nice villages?"
+    ),
+    Message(
+        author = Author(
+            name = "Lisa",
+        ),
+        body = "Or places to eat?"
     ),
 )
