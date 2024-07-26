@@ -18,9 +18,8 @@ import androidx.compose.ui.unit.dp
 import test.muzz.all.ui.theme.MessagesTheme
 import test.muzz.all.ui.theme.chatBubbleShape
 import test.muzz.all.ui.theme.ownerBubbleShape
-import test.muzz.main.all.mockMessages
+import test.muzz.main.all.mockMessageHistory
 import test.muzz.main.models.Message
-
 
 //TODO Split in 2 functions
 @Composable
@@ -89,7 +88,7 @@ fun MessageComponent(
 fun MessageViewPreview() {
     MessagesTheme {
         MessageComponent(
-            message = mockMessages.last()
+            message = mockMessageHistory().last()
         )
     }
 }
@@ -104,7 +103,7 @@ fun MessageViewPreview() {
 fun MessageComponentPreview() {
     MessagesTheme {
         MessageComponent(
-            message = mockMessages[1]
+            message = mockMessageHistory()[1]
         )
     }
 }

@@ -22,20 +22,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import test.muzz.R
 import test.muzz.all.ui.theme.MessagesTheme
-import test.muzz.main.all.mockMessages
+import test.muzz.main.all.mockMessageHistory
 import test.muzz.main.events.MainState
-import test.muzz.main.ui.comp.MainBottomBar
-import test.muzz.main.ui.comp.MainTopBar
+import test.muzz.main.ui.bars.MainBottomBar
+import test.muzz.main.ui.bars.MainTopBar
 import test.muzz.main.ui.comp.MessageComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,13 +43,12 @@ fun MainView(
     state: MainState,
     sendMessage: (String) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
     val scrollState = rememberLazyListState()
-    val scrollPosition = remember { mutableIntStateOf(0) }
+    val scrollToPosition = remember { mutableIntStateOf(0) }
 
     when (state) {
-        is MainState.Messaging -> scrollPosition.intValue = state.messageList.size - 1
-        else -> {/*NOOP*/}
+        is MainState.Messaging -> scrollToPosition.intValue = state.messageList.size - 1
+        else -> {/*NOOP*/ }
     }
 
     Scaffold(
@@ -78,14 +75,7 @@ fun MainView(
             )
         },
         bottomBar = {
-            MainBottomBar(
-                sendMessage = sendMessage,
-                scrollDown = {
-                    scope.launch {
-                        scrollState.scrollToItem(scrollPosition.intValue)
-                    }
-                }
-            )
+            MainBottomBar(sendMessage = sendMessage)
         },
         content = { paddingValues ->
             Column(
@@ -115,7 +105,11 @@ fun MainView(
                         )
 
                         LaunchedEffect(Unit) {
-                            scrollState.animateScrollToItem(scrollPosition.intValue)
+                            scrollState.animateScrollToItem(state.messageList.size)
+                        }
+
+                        LaunchedEffect(state.messageList.size) {
+                            scrollState.animateScrollToItem(state.messageList.size)
                         }
                     }
                 }
@@ -136,7 +130,7 @@ fun MainViewPreview() {
     MessagesTheme {
         MainView(
             state = MainState.Messaging(
-                messageHistory = mockMessages
+                messageHistory = mockMessageHistory()
             ),
             sendMessage = {}
         )

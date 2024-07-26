@@ -37,7 +37,6 @@ import test.muzz.all.ui.theme.MessagesTheme
 fun UserInputComponent(
     modifier: Modifier = Modifier,
     sendMessage: (String) -> Unit,
-    scrollDown: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -74,7 +73,6 @@ fun UserInputComponent(
             onClick = {
                 sendMessage(textFieldValue.text.trim())
                 textFieldValue = TextFieldValue()
-                scrollDown()
             },
             content = {
                 Icon(
@@ -91,9 +89,6 @@ fun UserInputComponent(
 @Composable
 fun UserInputComponentPreview() {
     MessagesTheme {
-        UserInputComponent(
-            sendMessage = {},
-            scrollDown = {}
-        )
+        UserInputComponent(sendMessage = {})
     }
 }

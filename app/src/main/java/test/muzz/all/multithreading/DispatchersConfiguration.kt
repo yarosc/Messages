@@ -13,24 +13,28 @@ interface Needle {
 
 class ProdNeedle @Inject constructor(
     //Inject boolean value that helps identify if in Prod or Testing
-): Needle {
+) : Needle {
     override fun main() = Dispatchers.Main
-
 
     override fun io() = Dispatchers.IO
 
 }
 
 
-//class TestNeedle @Inject constructor(
-//
-//): Needle {
-//    override fun main() {
-//        TestDispatcher.
-//    }
-//
-//    override fun io() {
-//        TODO("Not yet implemented")
-//    }
-//
-//}
+/**
+ *
+ *
+class TestNeedle @Inject constructor(
+
+): Needle {
+    override fun main() {
+
+        //Use test dispatcher immediate
+    }
+
+    override fun io() {
+        //Use test dispatcher
+    }
+
+}
+ */

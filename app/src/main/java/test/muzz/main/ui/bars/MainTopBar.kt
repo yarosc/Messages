@@ -1,4 +1,4 @@
-package test.muzz.main.ui.comp
+package test.muzz.main.ui.bars
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.RowScope

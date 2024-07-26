@@ -1,8 +1,10 @@
 package test.muzz.all.vms
 
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -13,6 +15,7 @@ abstract class BaseViewModel<A>(
 ) : ViewModel(), DefaultLifecycleObserver {
 
     private val actions = MutableSharedFlow<A>()
+    private val jobList = mutableListOf<Job>()
 
     init {
         listenToActions()
@@ -22,8 +25,14 @@ abstract class BaseViewModel<A>(
         actions.emit(action)
     }
 
-    open fun handleAction(action: A) {
-        analyticsHandler.trackAction()
+    fun registerJob(vararg jobs: Job) = jobList.addAll(jobs)
+
+    open fun handleAction(action: A) = analyticsHandler.trackAction()
+
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
+
+        for (job in jobList) job.cancel()
     }
 
     private fun listenToActions() = viewModelScope.launch {
