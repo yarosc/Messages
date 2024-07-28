@@ -23,12 +23,14 @@ class MainUseCase @Inject constructor(
 
     fun getLatest(): Flow<Message> = dao.getLatestMessage().map { entityToMessage(it) }
 
-    fun saveMessages(messages: List<Message>) {
-        dao.insertMessages(
-            messages.map {
-                messageToEntity(it)
-            }
-        )
+    fun populateDatabaseIfEmpty(messages: List<Message>) {
+        dao.apply {
+            if (noMessages()) insertMessages(
+                messages.map {
+                    messageToEntity(it)
+                }
+            )
+        }
     }
 
     fun save(message: Message) {

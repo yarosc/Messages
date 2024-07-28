@@ -22,6 +22,8 @@ interface MessagesDao {
     @Query("SELECT * FROM $MESSAGE_ENTITY")
     suspend fun getMessageHistory(): List<MessageEntity>
 
+    @Query("SELECT (SELECT COUNT(id) FROM $MESSAGE_ENTITY) == 0")
+    fun noMessages(): Boolean
 
     // Variation using Flow
     @Query("SELECT * FROM $MESSAGE_ENTITY")

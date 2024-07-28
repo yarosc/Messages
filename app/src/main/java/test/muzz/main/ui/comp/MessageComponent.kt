@@ -2,6 +2,7 @@ package test.muzz.main.ui.comp
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -25,7 +26,8 @@ import test.muzz.main.models.Message
 @Composable
 fun MessageComponent(
     modifier: Modifier = Modifier,
-    message: Message
+    message: Message,
+    isSpaced: Boolean = false
 ) {
     val bubbleAlign: Alignment.Horizontal
     val bubbleShape: Shape
@@ -44,10 +46,13 @@ fun MessageComponent(
         bubbleContainerColor = MaterialTheme.colorScheme.secondaryContainer
     }
 
+    val paddingValues = if (isSpaced) PaddingValues(16.dp, 16.dp, 16.dp, 2.dp)
+    else PaddingValues(16.dp, 2.dp, 16.dp, 2.dp)
+
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(paddingValues),
         horizontalAlignment = bubbleAlign
     ) {
         Card(
@@ -60,10 +65,6 @@ fun MessageComponent(
             Column(
                 modifier = modifier.padding(16.dp),
             ) {
-                Text(
-                    text = "10:11 PM",
-                    style = MaterialTheme.typography.bodySmall
-                )
                 Text(
                     text = message.author.name,
                     style = MaterialTheme.typography.titleSmall
@@ -88,7 +89,22 @@ fun MessageComponent(
 fun MessageViewPreview() {
     MessagesTheme {
         MessageComponent(
-            message = mockMessageHistory().last()
+            message = mockMessageHistory().last(),
+        )
+    }
+}
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+fun MessageViewSpacedPreview() {
+    MessagesTheme {
+        MessageComponent(
+            message = mockMessageHistory().last(),
+            isSpaced = true
         )
     }
 }
@@ -103,7 +119,7 @@ fun MessageViewPreview() {
 fun MessageComponentPreview() {
     MessagesTheme {
         MessageComponent(
-            message = mockMessageHistory()[1]
+            message = mockMessageHistory()[1],
         )
     }
 }

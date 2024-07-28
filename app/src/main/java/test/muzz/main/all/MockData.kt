@@ -1,8 +1,8 @@
 package test.muzz.main.all
 
-import test.muzz.all.date.formatTimestamp
 import test.muzz.main.models.Author
 import test.muzz.main.models.Message
+import test.muzz.main.models.OWNER
 import java.time.LocalDateTime
 
 val messageList: List<Pair<String, String>> = listOf(
@@ -28,22 +28,18 @@ val simMessageList: List<Pair<String, String>> = listOf(
 
 val overflowMessage = "Lisa" to "That's lovely"
 
-fun mockMessageHistory(): List<Message> = messageList.map { mapper(it) }
+fun mockMessageHistory(): List<Message> = messageList.map { mapper(it, oldMessages = true) }
 
 fun simulatedMessages(index: Int): Message = mapper(
     if (index in simMessageList.indices) simMessageList[index]
     else overflowMessage
 )
 
-private fun mapper(pair: Pair<String, String>): Message {
-    val now = LocalDateTime.now()
-    return Message(
-        author = Author(
-            name = pair.first,
-            owner = pair.first == "Me"
-        ),
-        body = pair.second,
-        rawTimestamp = now.toString(),
-        formattedTimeStamp = formatTimestamp(now)
-    )
-}
+private fun mapper(pair: Pair<String, String>, oldMessages: Boolean = false) = Message(
+    author = Author(
+        name = pair.first,
+        owner = pair.first == OWNER.name // For simplicity I compare strings to identify the owner
+    ),
+    body = pair.second,
+    timestamp = if (oldMessages) LocalDateTime.now().minusDays(1) else LocalDateTime.now()
+)
