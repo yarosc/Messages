@@ -4,7 +4,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.isActive
@@ -18,6 +20,7 @@ import test.muzz.main.all.encloseMessages
 import test.muzz.main.all.mockMessageHistory
 import test.muzz.main.all.simulatedMessages
 import test.muzz.main.events.MainAction
+import test.muzz.main.events.MainEvent
 import test.muzz.main.events.MainState
 import test.muzz.main.models.Message
 import test.muzz.main.models.OWNER
@@ -34,7 +37,9 @@ class MainViewModel @Inject constructor(
     private val _viewState = MutableStateFlow<MainState>(MainState.Loading)
     val viewState = _viewState.asStateFlow()
 
-    private lateinit var lastTimestamp: LocalDateTime
+    private val _events = MutableSharedFlow<MainEvent>()
+    val events = _events.asSharedFlow()
+
     private var simMessageIndex = 0
 
     override fun onCreate(owner: LifecycleOwner) {
@@ -60,6 +65,13 @@ class MainViewModel @Inject constructor(
         when (action) {
             is MainAction.SendMessage -> sendMessage(action.message)
         }
+    }
+
+    fun refreshMessagePresentation() {
+        viewModelScope.launch {
+            _viewState.emit(MainState.Loading)
+        }
+        initializeMessageHistory()
     }
 
     private fun initializeMessageHistory() {
@@ -110,7 +122,6 @@ class MainViewModel @Inject constructor(
                 body = messageBody,
                 timestamp = timestamp
             )
-
             mainUseCase.save(message)
         }
     }
